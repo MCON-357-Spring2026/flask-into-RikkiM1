@@ -18,14 +18,18 @@ def greet_endpoint(name):
     return f"<p>Hello, {name}! Welcome to Flask.</p>"
 
 @app.route("/calculate", methods=["GET"])
-def calc_endpoint(num1, num2, operation):
-    if request.args.get('operation')== "add":
+def calc_endpoint():
+    num1 = float(request.args.get("num1"))
+    num2 = float(request.args.get("num2"))
+    operation = request.args.get("operation")
+
+    if operation == "add":
        result=  num1 + num2
-    elif request.args.get('operation') == "subtract":
+    elif operation == "subtract":
         result=  num1 - num2
-    elif request.args.get('operation') == "multiply":
+    elif operation == "multiply":
        result=  num1 * num2
-    elif request.args.get('operation') == "divide":
+    elif operation == "divide":
        result=  num1 / num2
     return jsonify({"result": result, "operation": operation})
 
