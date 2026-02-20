@@ -59,5 +59,16 @@ def add_custom_header(response):
     response.headers["X-Custom-Header"] = "FlaskRocks"
     return response
 
+@app.route('/debug/routes')
+def show_routes():
+    routes = []
+    for rule in app.url_map.iter_rules():
+        routes.append({
+            'endpoint': rule.endpoint,
+            'methods': list(rule.methods),
+            'path': str(rule)
+        })
+    return jsonify(routes)
+
 if __name__ == '__main__':
         app.run(debug=True)
