@@ -43,5 +43,21 @@ def echo():
 def status_endpoint(code):
     return ((f'This is a {code} error'), code)
 
+@app.before_request
+def log_request_info():
+    print(f"[BEFORE] Method: {request.method}, Path: {request.path}")
+
+@app.teardown_request
+def log_exception(error):
+    if error:
+        print(f"[TEARDOWN] Exception occurred: {error}")
+    else:
+        print("[TEARDOWN] Request completed successfully.")
+
+@app.after_request
+def add_custom_header(response):
+    response.headers["X-Custom-Header"] = "FlaskRocks"
+    return response
+
 if __name__ == '__main__':
         app.run(debug=True)
